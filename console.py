@@ -30,6 +30,18 @@ class HBNBCommand(cmd.Cmd):
              'latitude': float, 'longitude': float
             }
 
+    def convert_str_to_num(self, arg: str):
+        """converts string to num or float"""
+        try:
+            return int(arg)
+        except Exception:
+            pass
+
+        try:
+            return float(arg)
+        except Exception:
+            return arg
+
     def preloop(self):
         """Prints if isatty is false"""
         if not sys.__stdin__.isatty():
@@ -121,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        
+
         attributes = {} #get all attributes
         for attr in args[1:]:
             new_dict = attr.split('=', 1)
@@ -131,11 +143,11 @@ class HBNBCommand(cmd.Cmd):
 
         for k, v in attributes.items():
             val = val.strip("\"'").replace("_", " ")
-            #val = self.num_or_float(val) use isinstance#
+            val = self.convert_str_to_num(val)
             setattr(new_instance, k, v)
-        #storage.save()#
+
         print(new_instance.id)
-        storage.save()
+        new_instance.save()
 
     def help_create(self):
         """ Help information for the create method """
