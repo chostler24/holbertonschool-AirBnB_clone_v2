@@ -121,8 +121,19 @@ class HBNBCommand(cmd.Cmd):
         elif args not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
+        
+        attributes = {} #get all attributes
+        for attr in args[1:]:
+            new_dict = attr.split('=', 1)
+            attributes[new_dict[0]] = new_dict[1]
+
         new_instance = HBNBCommand.classes[args]()
-        storage.save()
+
+        for k, v in attributes.items():
+            val = val.strip("\"'").replace("_", " ")
+            #val = self.num_or_float(val) use isinstance#
+            setattr(new_instance, k, v)
+        #storage.save()#
         print(new_instance.id)
         storage.save()
 
