@@ -16,9 +16,9 @@ class FileStorage:
         cls_objects = {}
 
         for val in FileStorage.__objects.values():
-            if type(value) == cls:
+            if type(val) == cls:
                 cls_objects.update(
-                    {value.to_dict()['__class__'] + '.' + value.id: value}
+                    {val.to_dict()['__class__'] + '.' + val.id: val}
                 )
 
         return cls_objects
