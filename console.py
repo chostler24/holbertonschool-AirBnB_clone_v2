@@ -127,7 +127,6 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, args):
         """ Create an object of any class"""
-        args = args.split(" ")
         if not args:
             print("** class name missing **")
             return
@@ -135,6 +134,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
+        args = args.split(" ")
         attributes = {} #get all attributes
         for attr in args[1:]:
             new_dict = attr.split('=', 1)
