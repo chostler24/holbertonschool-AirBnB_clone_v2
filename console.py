@@ -146,7 +146,7 @@ class HBNBCommand(cmd.Cmd):
             v = v.strip("\"'").replace("_", " ")
             v = self.convert_str_to_num(v)
             setattr(new_instance, k, v)
-        
+
         storage.new(new_instance)
         print(new_instance.id)
         storage.save()
