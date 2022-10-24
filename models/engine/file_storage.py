@@ -39,7 +39,7 @@ class FileStorage:
     def delete(self, obj=None):
         """deletes obj from _objects"""
         if obj is None:
-            pass
+            return
         for key, val in dict(FileStorage.__objects).items():
             if val == obj:
                 del FileStorage.__objects[key]
