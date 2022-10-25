@@ -85,7 +85,7 @@ class HBNBCommand(cmd.Cmd):
                 pline = pline[2].strip()  # pline is now str
                 if pline:
                     # check for *args or **kwargs
-                    if pline[0] == '{' and pline[-1] =='}'\
+                    if pline[0] == '{' and pline[-1] == '}'\
                             and type(eval(pline)) is dict:
                         _args = pline
                     else:
@@ -135,7 +135,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
 
-        attributes = {} #get all attributes
+        attributes = {}  # get all attributes
         for attr in list_args[1:]:
             new_dict = attr.split('=', 1)
             attributes[new_dict[0]] = new_dict[1]

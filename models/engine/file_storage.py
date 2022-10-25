@@ -15,10 +15,10 @@ class FileStorage:
 
         cls_objects = {}
 
-        for val in FileStorage.__objects.values():
-            if type(val) == cls:
+        for value in FileStorage.__objects.values():
+            if type(value) == cls:
                 cls_objects.update(
-                    {val.to_dict()['__class__'] + '.' + val.id: val}
+                    {value.to_dict()['__class__'] + '.' + value.id: value}
                 )
 
         return cls_objects
@@ -35,14 +35,6 @@ class FileStorage:
             for key, val in temp.items():
                 temp[key] = val.to_dict()
             json.dump(temp, f)
-
-    def delete(self, obj=None):
-        """deletes obj from _objects"""
-        if obj is None:
-            return
-        for key, val in dict(FileStorage.__objects).items():
-            if val == obj:
-                del FileStorage.__objects[key]
 
     def reload(self):
         """Loads storage dictionary from file"""
@@ -67,3 +59,11 @@ class FileStorage:
                     self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
+
+    def delete(self, obj=None):
+        """deletes obj from _objects"""
+        if obj is None:
+            return
+        for key, value in dict(FileStorage.__objects).items():
+            if value == obj:
+                del FileStorage.__objects[key]
