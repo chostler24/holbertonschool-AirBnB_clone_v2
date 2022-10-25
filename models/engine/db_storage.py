@@ -13,7 +13,7 @@ passwd = getenv('HBNB_MYSQL_PWD')
 host = getenv('HBNB_MYSQL_HOST')
 database = getenv('HBNB_MYSQL_DB')
 v_env = getenv('HBNB_ENV')
-
+#print("The passwd we got: {}".format(passwd))
 
 class DBStorage:
     """ Creates a new database """
@@ -23,19 +23,21 @@ class DBStorage:
 
     def __init__(self):
         """ Intialization """
+        #print("the passwd we got: {}".format(passwd))
         self.__engine = create_engine(
             'mysql+mysqldb://{}:{}@{}/{}'
             .format(user, passwd, host, database), pool_pre_ping=True)
 
         if v_env == 'test':
-            metadata = MetaData(self.__engine)
+            metadata = MetaData(engine)
             metadata.reflect()
             metadata.drop_all()
 
     def all(self, cls=None):
         """ Query on current db session """
-        self.__session = sessionmaker(bind=engine)
-        session = self.__session()
+        #self.__session = sessionmaker(bind=engine)
+        #session = self.__session()
+        session = self.__session
 
         if cls is None:
             session.query(User, State, City, Amenity, Place, Review)
@@ -55,6 +57,6 @@ class DBStorage:
 
     def reload(self):
         """creates all tables in db"""
-        Base.metadata.create_all(engine)
-        self.__session = sessionmaker(bind=engine, expire_on_commit=False)
+        Base.metadata.create_all(self.__engine)
+        self.__session = sessionmaker(bind=self.__engine, expire_on_commit=False)
         session = scoped_session(self.__session)
