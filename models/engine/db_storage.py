@@ -35,7 +35,25 @@ class DBStorage(self):
         """ Query on current db session """
         self.__session = sessionmaker(bind=engine)
         session = self.__session()
-        
+
         if cls is None:
             session.query(User, State, City, Amenity, Place, Review)
             return DBStorage.__objects
+
+    def new(self, obj):
+        """add obj to current db session"""
+        self.__session.add()
+
+    def save(self):
+        """commit changes of current db session"""
+        self.__session.commit()
+
+    def delete(self, obj=None):
+        """delete from current db session"""
+        self.__session.delete()
+
+    def reload(self):
+        """creates all tables in db"""
+        Base.metadata.create_all(engine)
+        self.__session = sessionmaker(bind=engine, expire_on_commit=False)
+        session = scoped_session(self.__session)
