@@ -5,6 +5,7 @@ from sqlalchemy.orm.scoping import scoped_session
 from sqlalchemy.schema import MetaData
 from sqlalchemy.orm import sessionmaker
 from os import getenv
+from models.base_model import Base
 
 
 user = getenv('HBNB_MYSQL_USER')
@@ -14,7 +15,7 @@ database = getenv('HBNB_MYSQL_DB')
 v_env = getenv('HBNB_ENV')
 
 
-class DBStorage(self):
+class DBStorage:
     """ Creates a new database """
     __engine = None
     __session = None
