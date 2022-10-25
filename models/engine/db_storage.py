@@ -28,7 +28,7 @@ class DBStorage:
             .format(user, passwd, host, database), pool_pre_ping=True)
 
         if v_env == 'test':
-            metadata = MetaData(engine)
+            metadata = MetaData(self.__engine)
             metadata.reflect()
             metadata.drop_all()
 
@@ -62,7 +62,7 @@ class DBStorage:
 
     def new(self, obj):
         """add obj to current db session"""
-        self.__session.addg(obj)
+        self.__session.add(obj)
 
     def save(self):
         """commit changes of current db session"""
@@ -74,7 +74,16 @@ class DBStorage:
 
     def reload(self):
         """creates all tables in db"""
+        from models.base_model import BaseModel
+        from models.user import User
+        from models.place import Place
+        from models.city import City
+        from models.state import State
+        from models.amenity import Amenity
+        from models.review import Review
+
         Base.metadata.create_all(self.__engine)
-        self.__session = sessionmaker(
+        Session = sessionmaker(
             bind=self.__engine, expire_on_commit=False)
-        session = scoped_session(self.__session)
+        session = scoped_session(Session)
+        self.__session = session()
