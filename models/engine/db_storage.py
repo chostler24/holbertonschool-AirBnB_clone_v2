@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ New db engine """
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
 from sqlalchemy.orm.scoping import scoped_session
 from sqlalchemy.schema import MetaData
 from sqlalchemy.orm import sessionmaker
@@ -90,4 +90,4 @@ class DBStorage:
 
     def close(self):
         """ Ends private session attributes """
-        self.__session.close()
+        self.__session.remove()
