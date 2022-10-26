@@ -5,6 +5,7 @@ from datetime import datetime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql.expression import null
 from sqlalchemy import Column, String, DateTime
+import models
 
 
 Base = declarative_base()
@@ -42,7 +43,7 @@ class BaseModel:
         from models import storage
         self.updated_at = datetime.now()
         storage.new(self)
-        #storage.save()#
+        storage.save()
 
     def to_dict(self):
         """Convert instance into dict format"""
@@ -52,12 +53,12 @@ class BaseModel:
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
-        return dictionary
 
-        for k, v in dictionary.items():
-            if k == _sa_instance_state:
-                del dictionary[k]
-    
+        dict_cpy = dictionary.copy()
+        if "_sa_instance_state" in dict_cpy:
+            del dict_cpy["_sa_instance_state"]
+        return dict_cpy
+
     def delete(self):
         """ stuff to delete """
         from models import storage
