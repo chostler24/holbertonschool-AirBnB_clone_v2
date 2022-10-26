@@ -4,7 +4,7 @@ from ast import In, Str
 from re import I
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey
-from sqlalchemy import.orm import relationship, backref
+from sqlalchemy.orm import relationship, backref
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -25,4 +25,3 @@ class Place(BaseModel, Base):
         'Review',
         backref='state',
         cascade='all, delete-orphan')
-    
