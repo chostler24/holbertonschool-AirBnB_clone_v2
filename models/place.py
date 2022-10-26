@@ -8,7 +8,7 @@ from sqlalchemy.orm import relationship, backref
 
 class Place(BaseModel, Base):
     """ A place to stay """
-    __tablename__ = "places"
+    __tablename__ = 'places'
     city_id = Column(String(60), ForeignKey('cities.id'), nullable=False)
     user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
     name = Column(String(128), nullable=False)
@@ -25,3 +25,13 @@ class Place(BaseModel, Base):
         'Review',
         backref='state',
         cascade='all, delete-orphan')
+
+    @property
+    def reviews(self):
+        """ getter that returns list of Reviews instances """
+        instances = models.storage.all(Review)
+        new = []
+        for reviews in instances.values():
+            if reviews.place_id == (self.id):
+                new.append(review)
+        return new
