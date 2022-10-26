@@ -67,3 +67,7 @@ class FileStorage:
         for key, value in dict(FileStorage.__objects).items():
             if value == obj:
                 del FileStorage.__objects[key]
+
+    def close(self):
+        """ ends session """
+        self.reload()
