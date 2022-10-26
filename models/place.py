@@ -5,6 +5,8 @@ from re import I
 from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship, backref
+from models import storage
+from models.amenity import Amenity
 
 
 Table('place_amenity', Base.metadata,
@@ -40,4 +42,17 @@ class Place(BaseModel, Base):
         backref='place_amenities',
         viewonly=False)
 
+    @property
+    def amenities(self):
+        """getter for amenities"""
+        amn_list = []
+        for amenity in storage.all(Amenity).value():
+            if self.id == amenity.place_id:
+                amn_list.append(amenity)
+        return amn_list
 
+    @amenities.setter
+    def amenities(self, obj):
+        """setter for amenities"""
+        if isinstance(obj, Amenity):
+            self.append(obj)
