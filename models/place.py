@@ -43,6 +43,12 @@ class Place(BaseModel, Base):
         viewonly=False)
 
     @property
+    def reviews(self):
+        """ getter for reviews """
+        return [review for review in models.storage.all(Review)
+                if review.place_id == self.id]
+
+    @property
     def amenities(self):
         """getter for amenities"""
         amn_list = []
