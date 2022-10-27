@@ -34,38 +34,38 @@ class Place(BaseModel, Base):
     longitude = Column(Float, nullable=True)
     amenity_ids = []
 
-    #if getenv('HBNB_TYPE_STORAGE') == 'db':
-    #reviews = relationship(
-        #'Review',
-        #backref='place',
-        #cascade='all, delete-orphan')
+    if getenv('HBNB_TYPE_STORAGE') == 'db':
+        reviews = relationship(
+            'Review',
+            backref='place',
+            cascade='all, delete-orphan')
 
-    amenities = relationship(
-        'Amenity',
-        secondary='place_amenity',
-        backref='place_amenities',
-        viewonly=False)
-    #else:
-        #@property
-        #def reviews(self):
-            #""" getter for reviews """
-            #rev_list = []
-            #for review in storage.all(Review).values():
-                #if review.getattr('place_id') == self.id:
-                    #rev_list.append(review)
-            #return rev_list
+        amenities = relationship(
+            'Amenity',
+            secondary='place_amenity',
+            backref='place_amenities',
+            viewonly=False)
+    else:
+        @property
+        def reviews(self):
+            """ getter for reviews """
+            rev_list = []
+            for review in storage.all(Review).values():
+                if review.getattr('place_id') == self.id:
+                    rev_list.append(review)
+            return rev_list
 
-        #@property
-        #def amenities(self):
-            #"""getter for amenities"""
-            #amn_list = []
-            #for amenity in storage.all(Amenity).value():
-                #if self.id == amenity.place_id:
-                    #amn_list.append(amenity)
-            #return amn_list
+        @property
+        def amenities(self):
+            """getter for amenities"""
+            amn_list = []
+            for amenity in storage.all(Amenity).value():
+                if self.id == amenity.place_id:
+                    amn_list.append(amenity)
+            return amn_list
 
-        #@amenities.setter
-        #def amenities(self, obj):
-            #"""setter for amenities"""
-            #if isinstance(obj, Amenity):
-                #self.append(obj)
+        @amenities.setter
+        def amenities(self, obj):
+            """setter for amenities"""
+            if isinstance(obj, Amenity):
+                self.append(obj)
