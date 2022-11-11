@@ -45,7 +45,8 @@ def number_route(n):
     method returns n is a number
     only if n is an integer
     """
-    return ("{} is a number".format(n))
+    if n.isnumeric() == True:
+        return ("{} is a number".format(n))
 
 
 if __name__ == "__main__":
