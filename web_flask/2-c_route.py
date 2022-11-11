@@ -25,7 +25,7 @@ def c_route(text):
     to blank space
     """
     text = text.replace("_", " ")
-    return "C"
+    return ("C {}".format(text))
 
 
 if __name__ == "__main__":
