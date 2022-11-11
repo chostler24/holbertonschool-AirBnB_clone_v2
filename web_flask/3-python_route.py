@@ -28,8 +28,8 @@ def c_route(text):
     return ("C {}".format(text))
 
 
-@app.route("/python/(<text>)", strict_slashes=False)
-def python_route(text):
+@app.route("/python/<text>", strict_slashes=False)
+def python_route(text="is cool"):
     """
     method returns Python, value of text
     and changes underscore to blanke space
