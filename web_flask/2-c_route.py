@@ -19,11 +19,12 @@ def hbnb_route():
 
 
 @app.route("/c/<text>", strict_slashes=False)
-def c_route():
+def c_route(text):
     """
     method returns C and changes underscore
     to blank space
     """
+    text = text.replace("_", " ")
     return "C"
 
 
