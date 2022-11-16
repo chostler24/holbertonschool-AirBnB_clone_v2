@@ -50,7 +50,8 @@ class DBStorage:
             for className in classDict:
                 data = session.query(classDict[className]).all()
                 for obj in data:
-                    objects['{}.{}'.format(obj.__class__.__name__, obj.id)] = obj
+                    objects['{}.{}'.format(obj.__class__.__name__,
+                            obj.id)] = obj
         else:
             if isinstance(cls, str):
                 cls = classDict[cls]
