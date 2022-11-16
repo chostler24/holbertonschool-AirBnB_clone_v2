@@ -7,17 +7,18 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def teardown(content):
+def teardown(self):
     """teardown that context"""
-    import models
-    models.storage.close()
+    from models import storage
+    storage.close()
 
 
 @app.route("/states_list", strict_slashes=False)
 def state_route():
     """method displays states_list HTML page"""
-    import models
-    states = models.storage.all(models.state.State)
+    from models.state import State
+    from models import storage
+    states = storage.all(State)
     return render_template("7-states_list.html", states=states)
 
 
