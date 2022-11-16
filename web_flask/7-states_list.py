@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 
 @app.teardown_appcontext
-def teardown(content):
+def teardown():
     """teardown that context"""
     import models
     models.storage.close()
