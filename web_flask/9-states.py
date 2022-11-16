@@ -23,7 +23,7 @@ def states():
 
 
 @app.route("/states/<id>", strict_slashes=False)
-def states_id():
+def states_id(id):
     """displays html page"""
     from models import storage
     from models.state import State
