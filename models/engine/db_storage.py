@@ -6,6 +6,18 @@ from sqlalchemy.schema import MetaData
 from sqlalchemy.orm import sessionmaker
 from os import getenv
 from models.base_model import Base
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
+
+
+classes = {'User': User, 'Place': Place,
+           'State': State, 'City': City,
+           'Review': Review, 'Amenity': Amenity
+           }
 
 
 user = getenv('HBNB_MYSQL_USER')
@@ -34,32 +46,19 @@ class DBStorage:
 
     def all(self, cls=None):
         """ Query on current db session """
-        from models.base_model import BaseModel, Base
-        from models.amenity import Amenity
-        from models.city import City
-        from models.place import Place
-        from models.review import Review
-        from models.state import State
-        from models.user import User
-        classDict = {'City': City, 'State': State,
-                     'User': User, 'Place': Place,
-                     'Review': Review, 'Amenity': Amenity}
-        objects = {}
-        session = self.__session
-        if cls is None:
-            for className in classDict:
-                data = session.query(classDict[className]).all()
-                for obj in data:
-                    objects['{}.{}'.format(obj.__class__.__name__,
-                            obj.id)] = obj
+        object_dict = {}
+
+        if cls is not None:
+            for obj in self.__session.query(cls).all():
+                object_dict.update({'{}.{}'.format(type(cls).__name__,
+                                                   obj.id): obj})
         else:
-            if isinstance(cls, str):
-                cls = classDict[cls]
-            data = self.__session.query(cls).all()
-            for obj in data:
-                objects['{}'.format(obj.id)] = obj
-        return objects
-        # return DBStorage.__objects
+            for name in classes.values():
+                object_list = self.__session.query(name)
+                for obj in object_list:
+                    object_dict.update({'{}.{}'.format(type(obj).__name__,
+                                                       obj.id): obj})
+        return object_dict
 
     def new(self, obj):
         """add obj to current db session"""
